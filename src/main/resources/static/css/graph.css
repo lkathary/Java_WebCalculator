@@ -1,0 +1,41 @@
+.graph-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transform: scale(0.96);
+    left: 0;
+    top: 0;
+    margin-left: 5px;
+    overflow: hidden;
+}
+
+.graph-grid {
+    display: grid;
+    grid-template-columns: 32fr 1fr;
+}
+
+#chart {
+    position: absolute;
+    transform: scale(0.96);
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: -1;
+}
+
+#graph:checked ~ .web-calc {
+    left: -20%;
+}
+
+#graph:checked ~ .web-calc>.container>.calculator>.graph-box {
+    transform: scale(1);
+    left: 100%;
+    width: 125%;
+    transition: 1s;
+}
+
+#graph:not(:checked) ~ .web-calc>.container>.calculator>.graph-box {
+    left: 0;
+    transition: 1s;
+}

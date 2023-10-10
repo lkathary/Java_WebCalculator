@@ -1,0 +1,35 @@
+.wrapper {
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    transition: 1s;
+    transform: translateY(-10%);
+}
+
+.web-calc {
+    left: -100%;;
+}
+
+.credit-calc {
+    left: 100%;
+}
+
+#webCalc:checked ~ .web-calc {
+    left: 0;
+    transition: 1.5s;
+}
+
+#webCalc:checked ~ .credit-calc {
+    left: 100%;
+}
+
+#creditCalc:checked ~ .credit-calc {
+    left: 0;
+    transition: 1.5s;
+}
+
+#creditCalc:checked ~ .web-calc {
+    left: -100%;
+}

@@ -1,0 +1,145 @@
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    min-width: 800px;
+    user-select: none;
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}
+
+.slider>input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.slider {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    min-width: 800px;
+    background: var(--back-container-color);
+    overflow: hidden;
+    transition: background-color 1s;
+}
+
+.header {
+    background: var(--background-gradient);
+    color: white;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: height 1.5s;
+}
+
+.head-item {
+    position: relative;
+    justify-content: center;
+    background: #ADB5BD;
+    border: 1px solid;
+    border-radius: 5px;
+    display: flex;
+    padding: 1rem;
+    z-index: 1;
+    cursor:pointer;
+    font-size: 2rem;
+    transition: font-size 1s, transform 1s, z-index 0.5s;
+}
+
+input[type="radio"]:checked ~ .header>.head-item {
+    font-size: 1.5rem;
+}
+
+input[type="radio"]:checked ~ .header {
+    height: 150px;
+    min-height: 150px;
+}
+
+input[type="radio"]:checked ~ .header>div>a[class="hide-theme"]>.head-but,
+                               .header>div>[class="hide-theme"]>*>.head-but {
+    font-size: 15px;
+}
+
+.input[type="radio"]:checked ~  {
+    font-size: 0.55rem;
+}
+
+#webCalc:checked ~ .header>label[for="webCalc"] {
+    color: #000000;
+    transform: scale(1.2);
+    z-index: 2;
+}
+
+#webCalc:not(:checked) ~ .header>label[for="webCalc"] {
+    transform: scale(1);
+}
+
+#creditCalc:checked ~ .header>label[for="creditCalc"] {
+    color: #000000;
+    transform: scale(1.2);
+    z-index: 2;
+}
+
+#creditCalc:not(:checked) ~ .header>label[for="creditCalc"] {
+    transform: scale(1);
+}
+
+.head-item .hide-theme {
+    position: absolute;
+    background: #ADB5BD;
+    display: none;
+    top: 100%;
+    width: 100%;
+    padding: 5px 5px 5px 5px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.head-but {
+    position: relative;
+    background: none;
+    border: none;
+    width: 100%;
+    font-size: 1.2rem;
+    justify-content: center;
+    padding: 0.6rem;
+    color: white;
+    margin-top: 5px;
+}
+
+.head-item:hover .hide-theme {
+    display: block;
+}
+
+.head-item:hover, .head-but:hover {
+    color: #000000;
+}
+
+.button-theme {
+    background-color: #ADB5BD;
+    border: 1px;
+    border-color: #ADB5BD;
+    border-radius: 9px;
+    font-size: 14pt;
+    color: white;
+    cursor: pointer;
+}
+
+.button-theme:hover, .button-theme:active {
+    color: #1d1d1d;
+    transform: scale(1.05);
+}

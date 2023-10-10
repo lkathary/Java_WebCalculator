@@ -1,0 +1,62 @@
+.history-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transform: scale(0.96);
+    left: 0;
+    top: 0;
+    margin-left: 5px;
+    overflow: hidden;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: 12fr 1fr;
+}
+
+.history-context {
+    padding: 10px 10px 10px 10px;
+}
+
+#history {
+    position: absolute;
+    transform: scale(0.96);
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: -1;
+}
+
+.history-table {
+    position: relative;
+    font-size: 16px;
+    color: black;
+    text-align: left;
+    border: none;
+    overflow: auto;
+    display: inline-block;
+}
+
+.history-table tr td {
+    border: none;
+    justify-content: center;
+    padding: 0.2rem;
+}
+
+.history-table tr td:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#history:checked ~ .web-calc>.container>.calculator>.history-box {
+    transform: scale(1);
+    left: 100%;
+    width: 50%;
+    transition: 1s;
+}
+
+#history:not(:checked) ~ .web-calc>.container>.calculator>.history-box {
+    left: 0;
+    transition: 1s;
+}

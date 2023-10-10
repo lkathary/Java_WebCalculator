@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCalculator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+    <link rel="stylesheet" th:href="@{/css/interface.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/wrap.css}">
+    <link rel="stylesheet" th:href="@{/css/credit.css}">
+    <link rel="stylesheet" th:href="@{/css/graph.css}">
+    <link rel="stylesheet" th:href="@{/css/info.css}">
+    <link rel="stylesheet" th:href="@{/css/history.css}">
+
+    <script type="text/javascript" th:src="@{js/theme.js}"></script>
+    <script type="text/javascript" th:src="@{js/axios_service.js}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js"></script>
+
+</head>
+<body onload="loadSetting().then((response) => { setTheme(response); })">
+
+<div class="slider">
+    <input type="radio" name="slide-group" id="webCalc" checked/>
+    <input type="radio" name="slide-group" id="creditCalc" onclick="closeWebCalc()"/>
+    <label for="graph"></label><input type="checkbox" id="graph"/>
+    <label for="info"></label><input type="checkbox" id="info"/>
+    <label for="history"></label><input type="checkbox" id="history"/>
+
+    <div class="header">
+
+        <label class="head-item" for="webCalc">&nbsp;Calculator&nbsp;</label>
+        <label class="head-item" for="creditCalc">Credit calculator</label>
+
+        <div class="head-item">&nbsp;Themes&nbsp;
+            <a class="hide-theme">
+                <button class="button-theme theme" value="0">Light theme</button>
+                <button class="button-theme theme" value="1">Bloody theme</button>
+                <button class="button-theme theme" value="2">Grass theme</button>
+                <button class="button-theme theme" value="3">Dark theme</button>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="wrapper web-calc">
+        <div class="container">
+            <div class="calculator">
+
+                <div id="graph-area" class="graph-box graph-container">
+                    <div class="graph-grid">
+                        <div></div>
+                        <button class="button-red close-graph">x</button>
+                    </div>
+                    <div>
+                        <canvas id="chart" class=""></canvas>
+                    </div>
+                </div>
+
+                <div id="info-area" class="info-box info-container">
+                    <div class="info-grid">
+                        <div></div>
+                        <button class="button-red close-info">x</button>
+                    </div>
+                    <div class="info-context">
+                        <h2>SmartCalc v4.0</h2>
+                        <h3>Main features of the calculator:</h3>
+                        <ul>
+                            <li>Both integers and real numbers with a dot can be input into the program.</li>
+                            <li>The calculation is completed by entering the calculating expression and pressing the = symbol.</li>
+                            <li>Supports calculation of arbitrary bracketed arithmetic expressions in infix notation.</li>
+                            <li>Supports calculation of arbitrary bracketed arithmetic expressions in infix notation with substitution of the value of x.</li>
+                            <li>Support the plotting a graph of a function given by an expression in infix notation with the variable x
+                            (with coordinate axes, mark of the used scale and an adaptive grid).</li>
+                            <li>Domain and codomain of a function are limited to at least numbers from -1000000 to 1000000.</li>
+                            <li>Verifiable accuracy of the fractional part is at least to 7 decimal places.</li>
+                            <li>Supports the entering up to 255 characters.</li>
+                            <li>Supports brackets arithmetic expressions in infix notation must support the main arithmetic operations
+                            and mathematical functions.</li>
+                        </ul>
+                        <br>
+                        <h3>Have a nice calculations!</h3>
+                    </div>
+                </div>
+
+                <div id="history-area" class="history-box history-container">
+                    <div class="history-grid">
+                        <div></div>
+                        <button class="button-red close-history">x</button>
+                    </div>
+                    <div class="history-context">
+                        <table class="history-table"></table>
+                    </div>
+                </div>
+
+                <div class="interface">
+                    <div class="line-expr">
+                        <div>
+                            <label for="expression"></label><input class="input-expr" type="text" id="expression" value="0">
+                        </div>
+                        <div>
+                            <button class="button-dgrey eq">=</button>
+                        </div>
+                    </div>
+
+                    <div class="line-graph">
+                        <div class="label">
+                            <label for="x_var">x =</label>
+                        </div>
+                        <div>
+                            <input class="input-expr" type="number" step="any" id="x_var" value="0">
+                        </div>
+                        <div class="label">
+                            <label for="interval1">interval:</label>
+                        </div>
+                        <div>
+                            <input class="input-expr" type="number" step="any" id="interval1" value="-10">
+                        </div>
+                        <div class="label">
+                            <label for="interval2"> - </label>
+                        </div>
+                        <div>
+                            <input class="input-expr" type="number" step="any" id="interval2" value="10">
+                        </div>
+                        <div>
+                            <button class="button-dgrey graph">Plot</button>
+                        </div>
+                    </div>
+
+                    <div class="buttons-box">
+
+                        <button class="button-dgrey key">(</button>
+                        <button class="button-dgrey key">)</button>
+                        <button class="button-red key">x</button>
+                        <button class="button-orange key">^</button>
+                        <button class="button-dgrey info">Info</button>
+                        <button class="button-dgrey undo"><-</button>
+                        <button class="button-dgrey clear">AC</button>
+
+                        <button class="button-grey key">7</button>
+                        <button class="button-grey key">8</button>
+                        <button class="button-grey key">9</button>
+                        <button class="button-orange key">+</button>
+                        <button class="button-blue key">cos</button>
+                        <button class="button-blue key">sin</button>
+                        <button class="button-blue key">tan</button>
+
+                        <button class="button-grey key">4</button>
+                        <button class="button-grey key">5</button>
+                        <button class="button-grey key">6</button>
+                        <button class="button-orange key">-</button>
+                        <button class="button-blue key">acos</button>
+                        <button class="button-blue key">asin</button>
+                        <button class="button-blue key">atan</button>
+
+                        <button class="button-grey key">1</button>
+                        <button class="button-grey key">2</button>
+                        <button class="button-grey key">3</button>
+                        <button class="button-orange key">*</button>
+                        <button class="button-blue key">sqrt</button>
+                        <button class="button-blue key">ln</button>
+                        <button class="button-blue key">log</button>
+
+                        <button class="button-grey key">0</button>
+                        <button class="button-dgrey key">.</button>
+                        <button class="button-dgrey key">e</button>
+                        <button class="button-orange key">/</button>
+                        <button class="button-orange key">mod</button>
+                        <button class="button-dgrey history">History</button>
+                        <button class="button-dgrey clear-history">Clear<br>history</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="wrapper credit-calc">
+        <div class="credit-box">
+            <div>
+                <label for="credit-sum">Сумма кредита (руб.):</label>
+            </div>
+            <div>
+                <input type="number" id="credit-sum" value="0.00" min="0.01" step="any">
+            </div>
+            <div>
+                <label for="credit-term">Срок кредита (мес.):</label>
+            </div>
+            <div>
+                <input type="number" id="credit-term" value="1" min="1">
+            </div>
+            <div>
+                <label for="credit-interest">Процентная ставка (%):</label>
+            </div>
+            <div>
+                <input type="number" id="credit-interest" value="0.00" min="0.01" step="any">
+            </div>
+            <div>
+                <p>Тип платежей:</p>
+            </div>
+            <div>
+                <label for="diff">
+                    <input id="diff" type="radio" name="credit-type" checked/>
+                    Дифференцированные
+                </label>
+            </div>
+            <div>
+            </div>
+            <div>
+                <label for="ann">
+                    <input id="ann" type="radio" name="credit-type"/>
+                    Аннуитетные
+                </label>
+            </div>
+
+            <div>
+                <button id="credit-result" class="button-credit calc-credit">Расчитать</button>
+            </div>
+            <div>
+                <button id="credit-result1" class="button-credit clear-credit">Очистить форму</button>
+            </div>
+            <div style="grid-column-end: span 2;">
+                <hr>
+            </div>
+            <div>
+                <label for="credit-payment">Ежемесячный платеж:</label>
+            </div>
+            <div>
+                <input readonly id="credit-payment">
+            </div>
+            <div>
+                <label for="interest-sum">Начисленные проценты:</label>
+            </div>
+            <div>
+                <input readonly type="number" id="interest-sum">
+            </div>
+            <div>
+                <label for="total-sum">Общая выплата:</label>
+            </div>
+            <div>
+                <input readonly type="number" id="total-sum">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{js/button_actions.js}"></script>
+<script type="text/javascript" th:src="@{js/graph.js}"></script>
+<script type="text/javascript" th:src="@{js/history.js}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+.credit-calc {
+    align-items: center;
+    justify-content: center;
+}
+
+.credit-box {
+    position: relative;
+    display: grid;
+    width: 600px;
+    height: 400px;
+    min-width: 600px;
+    min-height: 400px;
+    background: var(--background-gradient);
+    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px 20px 20px 20px;
+    gap: 5px;
+    border-radius: 15px;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.credit-box hr {
+    background: white;
+    height: 2px;
+    border: none;
+    margin-top: 20px;
+}
+
+#credit-payment, #interest-sum, #total-sum {
+    border: none;
+    background: none;
+    color: white;
+    margin: 0;
+}
+
+.button-credit {
+    font-size: 14pt;
+    color: white;
+    background-color: #ADB5BD;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+}
+
+.button-credit:hover, .button-credit:active {
+    color: #1d1d1d;
+    transform: scale(1.05);
+}
